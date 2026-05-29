@@ -35,6 +35,7 @@ while cap.isOpened():
     probs = results[0].probs
     idx_ganador = probs.top1 
     nombre_ganador = results[0].names[idx_ganador]
+    confianza_ganador = probs.top1conf.item()
 
     idx_fondo = None
     for idx, name in results[0].names.items():
@@ -46,8 +47,10 @@ while cap.isOpened():
 
     if porcentaje_fondo > 0.80:  
         clase_actual = "fondo"
+        confianza = porcentaje_fondo
     else:
         clase_actual = nombre_ganador
+        confianza = confianza_ganador
 
     if clase_actual == clase_candidata:
         conteo_estabilidad += 1
@@ -73,7 +76,7 @@ while cap.isOpened():
                 print(f"Fallo UART: {e}")
 
     color = (0, 0, 255) if ultimo_comando_enviado == 'N' else (0, 255, 0)
-    texto_pantalla = f"Estable: {clase_candidata.upper()}"
+    texto_pantalla = f"Estable: {clase_candidata.upper()} ({confianza * 100:.1f}%)"
     cv2.putText(frame, texto_pantalla, (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.0, color, 2, cv2.LINE_AA)
 
     cv2.imshow("Raspberry Pi 4 - transmisor UART Filtrado", frame)
