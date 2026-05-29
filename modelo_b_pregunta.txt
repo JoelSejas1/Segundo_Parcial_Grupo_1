@@ -1,0 +1,25 @@
+1. MODIFICACION DEL SISTEMA (DATASET Y CLASES)
+Para que el sistema diferencie los materiales, se debe reestructurar el dataset
+actual aplicando un enfoque de "Clasificacion Multi-atributo", dividiendo las
+clases por marca y composicion fisica (ej. 'coca_vidrio', 'coca_plastico', etc.).
+
+2. PARAMETROS A EVALUAR EN VISION POR COMPUTADORA (OPTICA Y ENTORNO)
+Al tratarse de materiales transparentes y traslucidos, se deben evaluar:
+* Indice de Refraccion y Destellos Especulares: El vidrio genera brillos puntuales
+  y definidos, mientras que el plastico deforma la luz. Se evalua el uso de un 
+  Filtro Polarizador CPL fisico en la camara para mitigar reflejos parasitos.
+* Contraste del Entorno: Se debe evaluar e implementar un fondo de color mate 
+  homogeneo (azul o negro industrial) en la banda transportadora para forzar 
+  a la camara a capturar los bordes y siluetas por difraccion de luz.
+
+3. PARAMETROS A EVALUAR EN LA GENERACION DEL MODELO (HIPERPARAMETROS ML)
+Durante el reentrenamiento de la red neuronal (YOLO/ONNX) se deben evaluar:
+* Tamano de la Imagen (imgsz): Elevar la resolucion de entrada (de 224 a 320 o 416)
+  para que la red mantenga las "caracteristicas de alta frecuencia" (grosor del 
+  borde del vidrio y costuras de soplado del plastico PET).
+* Parametros de Aumentacion HSV (hsv_v): Incrementar el rango de variacion de 
+  brillo y saturacion en el archivo de configuracion del entrenamiento para que 
+  la IA aprenda a ignorar las variaciones de transparencia del liquido.
+* Ganancia de Perdida por Clasificacion (cls loss gain): Aumentar el peso de esta 
+  funcion de perdida durante las primeras epocas para obligar al modelo a priorizar 
+  las texturas complejas por encima de la silueta geometrica general.
