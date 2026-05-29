@@ -1,0 +1,9 @@
+Arquitectura del modelo 
+
+Se uso la arquitectura YOLOv8 Nano classification, con la librería Ultralytics
+con un dataset de 3269 imágenes usando classification, en el dataset tenemos 5 carpetas [fanta, coca, pepsi, salvietti, fondo].
+
+Mejorar la interferencia 
+
+Usando un data aumentation, aplicando filtros de ruido gaussiano, variaciones de brillo 
+Ademas se puede usar una optimización de software, como convertir el modelo a ONNX con esto se elimina la dependencia de pytorch en CPU, usar multihilos para dividir el programa en tareas independientes que se ejecuten al mismo tiempo para poder aprovechar los multiples núcleos
